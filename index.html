@@ -48,12 +48,14 @@
   <svg class="sprite" aria-hidden="true" focusable="false">
     <symbol id="i-seta" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
     <symbol id="i-escudo" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/><path d="m9 12 2 2 4-4"/></symbol>
+    <symbol id="i-seta-cima" viewBox="0 0 24 24"><path d="M12 19V5M6 11l6-6 6 6"/></symbol>
+    <symbol id="i-desce" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+    <symbol id="i-fechar" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
   </svg>
 
   <header class="topo">
     <div class="container topo__dentro">
       <a class="marca" href="#inicio" aria-label="Lucas dos Cortes, início da página">Lucas dos Cortes</a>
-      <a class="btn btn--cta btn--topo" href="https://pay.hotmart.com/C101919090K?off=qxpu7j8x" data-comprar>Quero o curso</a>
     </div>
   </header>
 
@@ -81,6 +83,12 @@
           <p class="hero__confianca"><span class="so-computador">Curso online · </span>Compra segura pela Hotmart · 7 dias de garantia</p>
         </div>
       </div>
+
+      <a class="rolar" href="#problema" aria-label="Rolar para ver o resto da página">
+        <span class="rolar__mouse" aria-hidden="true"><i></i></span>
+        <svg class="rolar__seta" aria-hidden="true"><use href="#i-desce"/></svg>
+        <span class="rolar__texto">Role para ver mais</span>
+      </a>
     </section>
 
     <!-- 2. O PROBLEMA -->
@@ -91,28 +99,28 @@
           <p>E o cliente sai da cadeira mostrando para todo mundo. Os problemas mais comuns são sempre os mesmos:</p>
         </header>
 
-        <ul class="problemas" data-revelar>
-          <li>
+        <ul class="problemas">
+          <li class="cartao" data-revelar style="--atraso:0s">
             <h3>Ficou amarelo</h3>
             <p>O cliente pediu branco e saiu com o cabelo amarelado.</p>
           </li>
-          <li>
+          <li class="cartao" data-revelar style="--atraso:.08s">
             <h3>O fio quebrou</h3>
             <p>Descolorante forte demais ou tempo errado deixam o cabelo elástico e quebradiço.</p>
           </li>
-          <li>
+          <li class="cartao" data-revelar style="--atraso:.16s">
             <h3>Ficou manchado</h3>
             <p>Raiz de um tom e pontas de outro: a aplicação desigual aparece na hora.</p>
           </li>
-          <li>
+          <li class="cartao" data-revelar style="--atraso:0s">
             <h3>Ardeu na cadeira</h3>
             <p>Química mal conduzida agride o couro cabeludo, e o cliente sofre durante o processo.</p>
           </li>
-          <li>
+          <li class="cartao" data-revelar style="--atraso:.08s">
             <h3>Cada vez sai de um jeito</h3>
             <p>Sem um método, o resultado depende da sorte.</p>
           </li>
-          <li>
+          <li class="cartao" data-revelar style="--atraso:.16s">
             <h3>Medo de oferecer</h3>
             <p>Com receio de errar, você deixa de vender um dos serviços de maior valor da barbearia.</p>
           </li>
@@ -135,7 +143,7 @@
     <!-- 3. O MÉTODO (mecha que clareia) -->
     <section class="secao secao--escura" id="metodo">
       <div class="container metodo">
-        <figure class="metodo__visual" data-timelapse data-revelar>
+        <figure class="metodo__visual" data-timelapse data-inclinar data-revelar>
           <svg class="mecha" data-mecha viewBox="0 0 300 470" role="img" aria-label="Mecha de cabelo que clareia do castanho escuro até o amarelo bem claro e, depois da matização, fica branca">
             <defs>
               <mask id="mecha-mascara" maskUnits="userSpaceOnUse" x="0" y="0" width="300" height="470"><g data-mascara></g></mask>
@@ -234,7 +242,7 @@
             </a>
           </div>
         </div>
-        <figure class="dividido__foto" data-revelar>
+        <figure class="dividido__foto" data-inclinar data-revelar>
           <img src="https://images.unsplash.com/photo-1587225438173-701d7edc94f9?auto=format&amp;fit=crop&amp;w=900&amp;h=1100&amp;q=75"
                srcset="https://images.unsplash.com/photo-1587225438173-701d7edc94f9?auto=format&amp;fit=crop&amp;w=640&amp;h=780&amp;q=75 640w,
                        https://images.unsplash.com/photo-1587225438173-701d7edc94f9?auto=format&amp;fit=crop&amp;w=900&amp;h=1100&amp;q=75 900w"
@@ -248,7 +256,7 @@
     <!-- 5. PARA QUEM É -->
     <section class="secao secao--escura" id="para-quem">
       <div class="container dividido dividido--inverso">
-        <figure class="dividido__foto" data-revelar>
+        <figure class="dividido__foto" data-inclinar data-revelar>
           <img src="https://images.unsplash.com/photo-1783908688260-0c47404926f3?auto=format&amp;fit=crop&amp;w=900&amp;h=1100&amp;q=75"
                srcset="https://images.unsplash.com/photo-1783908688260-0c47404926f3?auto=format&amp;fit=crop&amp;w=640&amp;h=780&amp;q=75 640w,
                        https://images.unsplash.com/photo-1783908688260-0c47404926f3?auto=format&amp;fit=crop&amp;w=900&amp;h=1100&amp;q=75 900w"
@@ -289,9 +297,9 @@
         <p>Dono da Barbearia LDC, em Salto (SP), o Lucas transforma o visual dos clientes com cortes de impacto, e o nevou é a especialidade dele. Também é educador: dá curso para iniciantes e ministra workshops para barbeiros.</p>
         <p>No Curso de Platinado Perfeito, ele une teoria e prática para você dominar a técnica de forma simples e rápida.</p>
         <ul class="credenciais">
-          <li><strong>Nevou e colorimetria</strong><span>especialidade do Lucas</span></li>
-          <li><strong>Barbearia LDC</strong><span>Salto, São Paulo</span></li>
-          <li><strong>+10 mil seguidores</strong><span>no Instagram</span></li>
+          <li class="cartao"><strong>Nevou e colorimetria</strong><span>especialidade do Lucas</span></li>
+          <li class="cartao"><strong>Barbearia LDC</strong><span>Salto, São Paulo</span></li>
+          <li class="cartao"><strong>+10 mil seguidores</strong><span>no Instagram</span></li>
         </ul>
         <div class="cta cta--centro">
           <a class="btn btn--cta" href="https://pay.hotmart.com/C101919090K?off=qxpu7j8x" data-comprar>
@@ -413,6 +421,24 @@
       <p>Pagamento processado com segurança pela Hotmart</p>
     </div>
   </footer>
+
+  <a class="topo-voltar" href="#inicio" aria-label="Voltar ao topo">
+    <svg class="ico" aria-hidden="true"><use href="#i-seta-cima"/></svg>
+  </a>
+
+  <!-- Aviso de compra: só mostra compras reais (lista em js/app.js) -->
+  <div class="aviso-compra" data-aviso-compra role="status" aria-live="polite" hidden>
+    <span class="aviso-compra__avatar" aria-hidden="true"><b data-aviso-inicial></b><i></i></span>
+    <p class="aviso-compra__texto">
+      <span><strong data-aviso-nome></strong><span data-aviso-local></span></span>
+      <span class="aviso-compra__acao">comprou o Curso de Platinado Perfeito</span>
+      <small data-aviso-quando></small>
+    </p>
+    <button class="aviso-compra__fechar" type="button" aria-label="Fechar aviso" data-aviso-fechar>
+      <svg class="ico" aria-hidden="true"><use href="#i-fechar"/></svg>
+    </button>
+    <span class="aviso-compra__tempo" aria-hidden="true"></span>
+  </div>
 
 </body>
 </html>

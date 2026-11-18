@@ -2,6 +2,13 @@
    Lucas dos Cortes · Curso de Platinado Perfeito (landing page)
    ========================================================= */
 
+/* Ângulo da borda animada do cartão da oferta */
+@property --giro {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}
+
 :root {
   --preto: #0e0e0e;
   --preto-2: #151515;
@@ -14,6 +21,7 @@
   --linha-escura: rgba(255, 255, 255, 0.12);
   --vermelho: #c8202f;
   --vermelho-2: #a8192a;
+  --verde: #1fa45a;
   --fonte: 'Manrope', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   --largura: 1120px;
   --estreito: 760px;
@@ -133,7 +141,7 @@ a {
   max-width: calc(var(--estreito) + var(--margem) * 2);
 }
 
-/* ---------- Botão de compra ---------- */
+/* ---------- Botão de compra (com animação que chama a atenção) ---------- */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -149,18 +157,23 @@ a {
   text-decoration: none;
   text-transform: uppercase;
   cursor: pointer;
-  transition: background-color 0.2s, transform 0.2s var(--ease), box-shadow 0.2s;
+  transition: background-color 0.2s, transform 0.2s var(--ease);
 }
 
+/* Pulso em volta do botão + reflexo de luz que atravessa + seta que empurra */
 .btn--cta {
-  background: var(--vermelho);
+  background-color: var(--vermelho);
+  background-image: linear-gradient(110deg, transparent 0 42%, rgba(255, 255, 255, 0.42) 50%, transparent 58% 100%);
+  background-repeat: no-repeat;
+  background-size: 250% 100%;
+  background-position: 160% 0;
   color: #fff;
-  box-shadow: 0 14px 30px -16px rgba(200, 32, 47, 0.85);
+  animation: cta-pulso 2.4s cubic-bezier(0.4, 0, 0.6, 1) infinite, cta-brilho 4.8s ease-in-out infinite;
 }
 
 .btn--cta:hover {
-  background: var(--vermelho-2);
-  transform: translateY(-1px);
+  background-color: var(--vermelho-2);
+  transform: translateY(-2px);
 }
 
 .btn--cta:active {
@@ -168,22 +181,45 @@ a {
 }
 
 .btn--cta .ico {
-  transition: transform 0.2s var(--ease);
+  animation: cta-seta 2.4s ease-in-out infinite;
 }
 
-.btn--cta:hover .ico {
-  transform: translateX(3px);
+@keyframes cta-pulso {
+  0% {
+    box-shadow: 0 14px 30px -16px rgba(200, 32, 47, 0.85), 0 0 0 0 rgba(200, 32, 47, 0.55);
+  }
+  70% {
+    box-shadow: 0 14px 30px -16px rgba(200, 32, 47, 0.85), 0 0 0 16px rgba(200, 32, 47, 0);
+  }
+  100% {
+    box-shadow: 0 14px 30px -16px rgba(200, 32, 47, 0.85), 0 0 0 0 rgba(200, 32, 47, 0);
+  }
+}
+
+@keyframes cta-brilho {
+  0%,
+  50% {
+    background-position: 160% 0;
+  }
+  80%,
+  100% {
+    background-position: -60% 0;
+  }
+}
+
+@keyframes cta-seta {
+  0%,
+  50%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(5px);
+  }
 }
 
 .btn--largo {
   width: 100%;
-}
-
-.btn--topo {
-  min-height: 42px;
-  padding: 0 20px;
-  font-size: 0.8rem;
-  box-shadow: none;
 }
 
 .cta {
@@ -206,7 +242,6 @@ a {
 
 .cta__preco strong {
   font-weight: 800;
-  opacity: 1;
 }
 
 .cta__ajuda {
@@ -232,7 +267,6 @@ a {
 .topo__dentro {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   height: 84px;
 }
 
@@ -286,7 +320,7 @@ a {
 
 .hero__conteudo {
   padding-top: 132px;
-  padding-bottom: 96px;
+  padding-bottom: 110px;
 }
 
 .hero__texto {
@@ -315,6 +349,95 @@ a {
   border-top: 1px solid var(--linha-escura);
   color: var(--cinza);
   font-size: 0.88rem;
+}
+
+/* Indicador de que a página continua para baixo */
+.rolar {
+  position: absolute;
+  bottom: 26px;
+  left: 50%;
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+  color: rgba(255, 255, 255, 0.78);
+  text-decoration: none;
+  translate: -50% 0;
+  transition: opacity 0.4s, color 0.2s;
+}
+
+.rolar:hover {
+  color: #fff;
+}
+
+.rolar.sumiu {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.rolar__mouse {
+  position: relative;
+  width: 26px;
+  height: 40px;
+  border: 2px solid currentColor;
+  border-radius: 14px;
+}
+
+.rolar__mouse i {
+  position: absolute;
+  top: 7px;
+  left: 50%;
+  width: 4px;
+  height: 8px;
+  margin-left: -2px;
+  border-radius: 2px;
+  background: currentColor;
+  animation: rolar-roda 1.9s ease-in-out infinite;
+}
+
+.rolar__seta {
+  display: none;
+  width: 30px;
+  height: 30px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  animation: rolar-seta 1.6s ease-in-out infinite;
+}
+
+.rolar__texto {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+@keyframes rolar-roda {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  70% {
+    opacity: 0;
+    transform: translateY(13px);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(0);
+  }
+}
+
+@keyframes rolar-seta {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: translateY(-3px);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(5px);
+  }
 }
 
 /* ---------- Seções ---------- */
@@ -350,35 +473,66 @@ a {
   font-size: 1.125rem;
 }
 
+/* ---------- Cards (fundo claro) ---------- */
+.cartao {
+  position: relative;
+  overflow: hidden;
+  border-radius: 14px;
+  background:
+    radial-gradient(280px circle at var(--mx, -999px) var(--my, -999px), rgba(200, 32, 47, 0.075), transparent 65%),
+    #fff;
+  box-shadow: 0 1px 2px rgba(22, 21, 20, 0.05), 0 14px 34px -22px rgba(22, 21, 20, 0.35), inset 0 0 0 1px rgba(22, 21, 20, 0.07);
+  transition: transform 0.35s var(--ease), box-shadow 0.35s;
+}
+
+/* Linha vermelha que corre no topo do card quando o mouse passa */
+.cartao::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto;
+  height: 3px;
+  background: var(--vermelho);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.5s var(--ease);
+}
+
+@media (hover: hover) {
+  .cartao:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 1px 2px rgba(22, 21, 20, 0.05), 0 28px 50px -26px rgba(22, 21, 20, 0.5), inset 0 0 0 1px rgba(22, 21, 20, 0.07);
+  }
+
+  .cartao:hover::before {
+    transform: scaleX(1);
+  }
+}
+
 /* ---------- O problema ---------- */
 .problemas {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  column-gap: 64px;
-  max-width: 940px;
-  margin: 0 auto;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
 }
 
 .problemas li {
-  position: relative;
-  padding: 26px 0 26px 40px;
-  border-top: 1px solid var(--linha-clara);
+  padding: 26px 24px 26px 64px;
 }
 
-.problemas li::before {
+.problemas li::after {
   content: '';
   position: absolute;
-  top: 29px;
-  left: 0;
-  width: 22px;
-  height: 22px;
+  top: 27px;
+  left: 24px;
+  width: 26px;
+  height: 26px;
   border-radius: 50%;
-  background: rgba(200, 32, 47, 0.1) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23c8202f' stroke-width='3' stroke-linecap='round'%3E%3Cpath d='M7 7l10 10M17 7 7 17'/%3E%3C/svg%3E") center / 11px no-repeat;
+  background: rgba(200, 32, 47, 0.1) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23c8202f' stroke-width='3' stroke-linecap='round'%3E%3Cpath d='M7 7l10 10M17 7 7 17'/%3E%3C/svg%3E") center / 12px no-repeat;
 }
 
 .problemas p {
   margin-top: 6px;
-  font-size: 1rem;
+  font-size: 0.98rem;
 }
 
 .virada {
@@ -534,6 +688,11 @@ a {
   font-size: 1rem;
 }
 
+.etapas li.ativo::after {
+  border-color: var(--vermelho);
+  background: var(--vermelho);
+}
+
 /* No computador a etapa da vez fica em destaque; no celular o texto fica sempre legível */
 @media (min-width: 901px) {
   .etapas.animando li {
@@ -543,11 +702,6 @@ a {
   .etapas.animando li.ativo {
     opacity: 1;
   }
-}
-
-.etapas li.ativo::after {
-  border-color: var(--vermelho);
-  background: var(--vermelho);
 }
 
 #metodo > .cta {
@@ -572,16 +726,40 @@ a {
 }
 
 .dividido__foto {
+  position: relative;
   overflow: hidden;
   border-radius: 16px;
   aspect-ratio: 9 / 11;
   background: #222;
+  box-shadow: 0 30px 60px -36px rgba(0, 0, 0, 0.6);
 }
 
 .dividido__foto img {
   width: 100%;
   height: 100%;
+  border-radius: inherit;
   object-fit: cover;
+}
+
+/* Inclinação 3D com reflexo de luz (computador): o JS controla --rx/--ry */
+[data-inclinar] {
+  transform: perspective(1100px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+}
+
+[data-inclinar]::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  border-radius: inherit;
+  background: radial-gradient(420px circle at var(--gx, 50%) var(--gy, 50%), rgba(255, 255, 255, 0.16), transparent 60%);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s;
+}
+
+[data-inclinar].inclinando::after {
+  opacity: 1;
 }
 
 .lista {
@@ -658,19 +836,14 @@ a {
 .credenciais {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
   margin-top: 40px;
-  border-top: 1px solid var(--linha-clara);
-  border-bottom: 1px solid var(--linha-clara);
 }
 
 .credenciais li {
   display: grid;
   gap: 2px;
-  padding: 22px 12px;
-}
-
-.credenciais li + li {
-  border-left: 1px solid var(--linha-clara);
+  padding: 22px 14px;
 }
 
 .credenciais strong {
@@ -688,10 +861,21 @@ a {
   max-width: 520px;
   margin: 0 auto;
   padding: 40px;
-  border-radius: 16px;
-  background: #fff;
+  border: 2px solid transparent;
+  border-radius: 18px;
+  /* Branco por dentro e uma luz vermelha que percorre a borda */
+  background:
+    linear-gradient(#fff, #fff) padding-box,
+    conic-gradient(from var(--giro), rgba(200, 32, 47, 0.14) 0deg, rgba(200, 32, 47, 0.14) 220deg, #c8202f 300deg, #ff9aa4 330deg, rgba(200, 32, 47, 0.14) 360deg) border-box;
   color: var(--tinta);
-  box-shadow: 0 40px 80px -40px rgba(0, 0, 0, 0.9);
+  box-shadow: 0 40px 80px -40px rgba(0, 0, 0, 0.9), 0 0 60px -30px rgba(200, 32, 47, 0.55);
+  animation: giro-borda 5s linear infinite;
+}
+
+@keyframes giro-borda {
+  to {
+    --giro: 360deg;
+  }
 }
 
 .oferta__produto {
@@ -805,6 +989,11 @@ a {
   letter-spacing: -0.01em;
   list-style: none;
   cursor: pointer;
+  transition: color 0.2s;
+}
+
+.faq summary:hover {
+  color: var(--vermelho);
 }
 
 .faq summary::-webkit-details-marker {
@@ -892,16 +1081,188 @@ a {
   gap: 6px 24px;
 }
 
+/* ---------- Voltar ao topo ---------- */
+.topo-voltar {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 50;
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(20, 20, 20, 0.92);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.18), 0 12px 28px -12px rgba(0, 0, 0, 0.6);
+  color: #fff;
+  text-decoration: none;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(14px);
+  transition: opacity 0.3s, visibility 0.3s, transform 0.35s var(--ease), background-color 0.2s, bottom 0.35s var(--ease);
+}
+
+.topo-voltar.visivel {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+}
+
+.topo-voltar:hover {
+  background: var(--vermelho);
+}
+
+.topo-voltar .ico {
+  width: 20px;
+  height: 20px;
+}
+
+/* ---------- Aviso de compra ---------- */
+.aviso-compra {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  z-index: 60;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+  width: min(400px, calc(100vw - 40px));
+  padding: 14px 10px 16px 14px;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 24px 60px -24px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(22, 21, 20, 0.07);
+  color: var(--tinta);
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(24px) scale(0.98);
+  transition: opacity 0.35s ease, transform 0.5s var(--ease);
+}
+
+.aviso-compra[hidden] {
+  display: none;
+}
+
+.aviso-compra.mostrar {
+  opacity: 1;
+  transform: none;
+}
+
+.aviso-compra__avatar {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: #fbe8ea;
+  color: var(--vermelho);
+  font-size: 1.1rem;
+  font-weight: 800;
+}
+
+/* Selinho verde de compra concluída */
+.aviso-compra__avatar i {
+  position: absolute;
+  right: -3px;
+  bottom: -3px;
+  width: 19px;
+  height: 19px;
+  border-radius: 50%;
+  background: var(--verde) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E") center / 10px no-repeat;
+  box-shadow: 0 0 0 2px #fff;
+}
+
+.aviso-compra__texto {
+  display: grid;
+  gap: 1px;
+  font-size: 0.9rem;
+  line-height: 1.35;
+}
+
+.aviso-compra__texto strong {
+  font-weight: 800;
+}
+
+.aviso-compra__acao {
+  color: var(--tinta-2);
+  font-size: 0.86rem;
+}
+
+.aviso-compra__texto small {
+  margin-top: 3px;
+  color: var(--cinza);
+  font-size: 0.76rem;
+}
+
+.aviso-compra__fechar {
+  display: grid;
+  place-items: center;
+  align-self: start;
+  width: 28px;
+  height: 28px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--cinza);
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.aviso-compra__fechar:hover {
+  background: #f1efeb;
+  color: var(--tinta);
+}
+
+.aviso-compra__fechar .ico {
+  width: 15px;
+  height: 15px;
+}
+
+/* Barrinha que vai diminuindo; quando acaba, o aviso some */
+.aviso-compra__tempo {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  background: var(--vermelho);
+  transform-origin: left;
+}
+
+.aviso-compra.mostrar .aviso-compra__tempo {
+  animation: aviso-tempo var(--aviso-duracao, 6500ms) linear forwards;
+}
+
+@media (hover: hover) {
+  .aviso-compra:hover .aviso-compra__tempo {
+    animation-play-state: paused;
+  }
+}
+
+@keyframes aviso-tempo {
+  from {
+    transform: scaleX(1);
+  }
+  to {
+    transform: scaleX(0);
+  }
+}
+
 /* ---------- Animação de entrada (discreta) ---------- */
 .js [data-revelar] {
   opacity: 0;
-  transform: translateY(18px);
-  transition: opacity 0.8s var(--ease), transform 0.8s var(--ease);
+  translate: 0 18px;
+  transition: opacity 0.8s var(--ease) var(--atraso, 0s), translate 0.8s var(--ease) var(--atraso, 0s);
+}
+
+.js .cartao[data-revelar] {
+  transition: opacity 0.8s var(--ease) var(--atraso, 0s), translate 0.8s var(--ease) var(--atraso, 0s), transform 0.35s var(--ease), box-shadow 0.35s;
 }
 
 .js [data-revelar].visivel {
   opacity: 1;
-  transform: none;
+  translate: none;
 }
 
 /* ---------- Tablet ---------- */
@@ -909,6 +1270,10 @@ a {
   .metodo,
   .dividido {
     gap: 56px;
+  }
+
+  .problemas {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
@@ -937,11 +1302,24 @@ a {
 
   .hero__conteudo {
     padding-top: 0;
-    padding-bottom: 36px;
+    padding-bottom: 64px;
   }
 
   .hero__texto {
     max-width: 600px;
+  }
+
+  .rolar {
+    bottom: 12px;
+  }
+
+  .rolar__mouse,
+  .rolar__texto {
+    display: none;
+  }
+
+  .rolar__seta {
+    display: block;
   }
 
   .metodo,
@@ -988,10 +1366,6 @@ a {
 
   .marca {
     font-size: 0.85rem;
-  }
-
-  .btn--topo {
-    display: none;
   }
 
   .btn {
@@ -1041,18 +1415,16 @@ a {
 
   .problemas {
     grid-template-columns: 1fr;
+    gap: 12px;
   }
 
   .problemas li {
-    padding: 20px 0 20px 38px;
+    padding: 20px 18px 20px 58px;
   }
 
-  .problemas li::before {
-    top: 23px;
-  }
-
-  .problemas li:last-child {
-    border-bottom: 1px solid var(--linha-clara);
+  .problemas li::after {
+    top: 21px;
+    left: 18px;
   }
 
   .virada {
@@ -1078,15 +1450,11 @@ a {
 
   .credenciais {
     grid-template-columns: 1fr;
-  }
-
-  .credenciais li + li {
-    border-top: 1px solid var(--linha-clara);
-    border-left: 0;
+    gap: 10px;
   }
 
   .credenciais li {
-    padding: 16px 8px;
+    padding: 16px 12px;
   }
 
   .perfil {
@@ -1119,6 +1487,20 @@ a {
     flex-direction: column;
     text-align: center;
   }
+
+  .topo-voltar {
+    right: 14px;
+    bottom: calc(16px + var(--aviso-desloc, 0px));
+    width: 46px;
+    height: 46px;
+  }
+
+  .aviso-compra {
+    right: 12px;
+    bottom: 12px;
+    left: 12px;
+    width: auto;
+  }
 }
 
 /* Telas baixas: o topo inteiro precisa caber */
@@ -1135,6 +1517,14 @@ a {
   .hero__confianca {
     display: none;
   }
+
+  .hero__conteudo {
+    padding-bottom: 52px;
+  }
+
+  .rolar {
+    bottom: 8px;
+  }
 }
 
 /* ---------- Menos movimento ---------- */
@@ -1147,11 +1537,24 @@ a {
   *::before,
   *::after {
     animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+
+  .btn--cta,
+  .btn--cta .ico,
+  .oferta__cartao,
+  .rolar__mouse i,
+  .rolar__seta {
+    animation: none !important;
+  }
+
+  .aviso-compra__tempo {
+    display: none;
   }
 
   .js [data-revelar] {
     opacity: 1;
-    transform: none;
+    translate: none;
   }
 }
