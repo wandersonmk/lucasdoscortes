@@ -1663,8 +1663,8 @@ html.bf .rolar {
     aspect-ratio: 16 / 10;
   }
 
-  /* A foto real do corte platinado aparece mais alta, sem cortar o resultado */
-  .dividido--inverso .dividido__foto--alta {
+  /* As fotos reais (corte platinado e matização) aparecem mais altas, sem cortar o resultado */
+  .dividido__foto.dividido__foto--alta {
     aspect-ratio: 4 / 5;
   }
 
