@@ -247,15 +247,21 @@ a {
 
 .cta__ajuda {
   margin-top: 18px;
-  color: var(--tinta-2);
+  color: #a9b4c7;
   font-size: 0.95rem;
 }
 
 .cta__ajuda a {
-  color: var(--tinta);
+  color: #fff;
   font-weight: 700;
   text-decoration: underline;
+  text-decoration-color: rgba(255, 255, 255, 0.4);
   text-underline-offset: 3px;
+  transition: text-decoration-color 0.2s;
+}
+
+.cta__ajuda a:hover {
+  text-decoration-color: #fff;
 }
 
 /* ---------- Cabeçalho ---------- */
@@ -528,8 +534,12 @@ a {
   gap: 18px;
 }
 
-.secao--azul .cartao {
+.problemas .cartao {
   padding: 30px 28px;
+}
+
+/* Cards azul-escuro (problemas e credenciais do Lucas) */
+.secao--azul .cartao {
   background:
     radial-gradient(320px circle at var(--mx, -999px) var(--my, -999px), rgba(140, 175, 240, 0.13), transparent 65%),
     linear-gradient(165deg, #172641 0%, #111d33 55%, #0f1a2d 100%);
@@ -831,7 +841,8 @@ a {
   line-height: 1.5;
 }
 
-.secao--escura .lista li {
+.secao--escura .lista li,
+.secao--azul .lista li {
   color: #fff;
 }
 
@@ -864,23 +875,25 @@ a {
   margin: 44px 0 30px;
 }
 
+/* Foto de perfil com anel platinado, separado do fundo por uma borda azul */
 .perfil__foto {
   width: 148px;
   height: 148px;
   border-radius: 50%;
   object-fit: cover;
-  box-shadow: 0 0 0 6px #fff, 0 22px 44px -20px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 0 4px var(--azul-noite), 0 0 0 6px rgba(197, 212, 240, 0.75), 0 24px 48px -20px rgba(0, 0, 0, 0.8);
 }
 
-.perfil__nome {
-  color: var(--tinta) !important;
+.sobre .perfil__nome {
+  color: #fff;
   font-size: 1.5rem;
   font-weight: 800;
   letter-spacing: -0.02em;
 }
 
-.perfil__cargo {
+.sobre .perfil__cargo {
   margin-top: 2px;
+  color: #c6d0e0;
   font-weight: 600;
 }
 
@@ -906,8 +919,12 @@ a {
   font-weight: 800;
 }
 
+.credenciais strong {
+  color: #fff;
+}
+
 .credenciais span {
-  color: var(--tinta-2);
+  color: #a9b4c7;
   font-size: 0.92rem;
 }
 
@@ -1027,17 +1044,17 @@ a {
 
 /* ---------- Perguntas frequentes ---------- */
 .faq {
-  border-top: 1px solid var(--linha-clara);
+  border-top: 1px solid rgba(169, 192, 234, 0.16);
 }
 
 .faq details {
-  border-bottom: 1px solid var(--linha-clara);
+  border-bottom: 1px solid rgba(169, 192, 234, 0.16);
 }
 
 .faq summary {
   position: relative;
   padding: 22px 44px 22px 0;
-  color: var(--tinta);
+  color: #fff;
   font-size: 1.06rem;
   font-weight: 800;
   line-height: 1.4;
@@ -1063,7 +1080,7 @@ a {
   width: 16px;
   height: 16px;
   margin-top: -8px;
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23161514' stroke-width='2.6' stroke-linecap='round'%3E%3Cpath d='M12 4v16M4 12h16'/%3E%3C/svg%3E") center / contain no-repeat;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23c6d0e0' stroke-width='2.6' stroke-linecap='round'%3E%3Cpath d='M12 4v16M4 12h16'/%3E%3C/svg%3E") center / contain no-repeat;
   transition: transform 0.3s var(--ease);
 }
 
@@ -1747,7 +1764,7 @@ html.bf .rolar {
   }
 
   /* No celular, ícone ao lado do texto para o card ficar mais baixo */
-  .secao--azul .cartao {
+  .problemas .cartao {
     display: grid;
     grid-template-columns: auto minmax(0, 1fr);
     column-gap: 16px;
