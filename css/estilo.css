@@ -22,6 +22,7 @@
   --vermelho: #c8202f;
   --vermelho-2: #a8192a;
   --verde: #1fa45a;
+  --azul-noite: #0b1322;
   --fonte: 'Manrope', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   --largura: 1120px;
   --estreito: 760px;
@@ -508,30 +509,76 @@ a {
   }
 }
 
-/* ---------- O problema ---------- */
+/* ---------- O problema: fundo azul-noite e cards azul-escuro ---------- */
+/* O fundo começa e termina no preto das seções vizinhas: sem "salto" de cor */
+.secao--azul {
+  background:
+    radial-gradient(60% 45% at 50% 52%, rgba(54, 92, 168, 0.16), transparent 70%),
+    linear-gradient(180deg, var(--preto) 0%, var(--azul-noite) 160px, var(--azul-noite) calc(100% - 160px), var(--preto) 100%);
+  color: #fff;
+}
+
+.secao--azul p {
+  color: #a9b4c7;
+}
+
 .problemas {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 16px;
+  gap: 18px;
 }
 
-.problemas li {
-  padding: 26px 24px 26px 64px;
+.secao--azul .cartao {
+  padding: 30px 28px;
+  background:
+    radial-gradient(320px circle at var(--mx, -999px) var(--my, -999px), rgba(140, 175, 240, 0.13), transparent 65%),
+    linear-gradient(165deg, #172641 0%, #111d33 55%, #0f1a2d 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.07),
+    inset 0 0 0 1px rgba(150, 180, 240, 0.13),
+    0 26px 50px -30px rgba(0, 0, 0, 0.9);
 }
 
-.problemas li::after {
-  content: '';
-  position: absolute;
-  top: 27px;
-  left: 24px;
-  width: 26px;
-  height: 26px;
-  border-radius: 50%;
-  background: rgba(200, 32, 47, 0.1) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23c8202f' stroke-width='3' stroke-linecap='round'%3E%3Cpath d='M7 7l10 10M17 7 7 17'/%3E%3C/svg%3E") center / 12px no-repeat;
+/* No azul, a linha que corre no topo é platinada */
+.secao--azul .cartao::before {
+  background: linear-gradient(90deg, #f1f3f7, #8fb0ea);
+}
+
+.cartao__icone {
+  display: block;
+  width: 30px;
+  height: 30px;
+  margin-bottom: 20px;
+  color: #a9c0ea;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: color 0.3s, transform 0.35s var(--ease);
+}
+
+@media (hover: hover) {
+  .secao--azul .cartao:hover {
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.1),
+      inset 0 0 0 1px rgba(170, 200, 255, 0.3),
+      0 34px 60px -30px rgba(0, 0, 0, 0.95);
+  }
+
+  .secao--azul .cartao:hover .cartao__icone {
+    color: #fff;
+    transform: translateY(-2px);
+  }
+}
+
+.problemas h3 {
+  color: #fff;
+  font-size: 1.16rem;
 }
 
 .problemas p {
-  margin-top: 6px;
+  margin-top: 8px;
   font-size: 0.98rem;
 }
 
@@ -542,11 +589,15 @@ a {
 }
 
 .virada__frase {
-  color: var(--tinta) !important;
+  color: var(--tinta);
   font-size: clamp(1.45rem, 1.1rem + 1.2vw, 1.95rem);
   font-weight: 800;
   line-height: 1.25;
   letter-spacing: -0.02em;
+}
+
+.secao--azul .virada__frase {
+  color: #fff;
 }
 
 .virada__frase + p {
@@ -739,6 +790,10 @@ a {
   height: 100%;
   border-radius: inherit;
   object-fit: cover;
+}
+
+.dividido__foto--alta img {
+  object-position: 50% 35%;
 }
 
 /* Inclinação 3D com reflexo de luz (computador): o JS controla --rx/--ry */
@@ -1249,6 +1304,274 @@ a {
   }
 }
 
+/* =========================================================
+   BLACK FRIDAY
+   Vale enquanto o <html> tiver a classe "bf" (colocada até a data do fim,
+   definida no começo do index.html). Depois, tudo volta ao normal.
+   ========================================================= */
+:root {
+  --bf-barra: 40px;
+}
+
+html:not(.bf) .so-bf {
+  display: none !important;
+}
+
+html.bf .sem-bf {
+  display: none !important;
+}
+
+html.bf {
+  scroll-padding-top: var(--bf-barra);
+}
+
+/* Faixa fixa no topo, com a contagem */
+.bf-barra {
+  position: sticky;
+  top: 0;
+  z-index: 55;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px 18px;
+  height: var(--bf-barra);
+  padding: 0 16px;
+  background: #000;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.08);
+  color: #d6d2cb;
+  font-size: 0.86rem;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.bf-barra__marca {
+  position: relative;
+  overflow: hidden;
+  padding: 3px 10px;
+  border-radius: 4px;
+  background: var(--vermelho);
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.bf-barra b {
+  color: #fff;
+  font-weight: 800;
+}
+
+.bf-barra__tempo b {
+  font-variant-numeric: tabular-nums;
+}
+
+html.bf .topo {
+  top: var(--bf-barra);
+}
+
+html.bf .hero {
+  min-height: calc(100vh - var(--bf-barra));
+  min-height: calc(100svh - var(--bf-barra));
+}
+
+html.bf .hero__conteudo {
+  padding-bottom: 136px;
+}
+
+html.bf .rolar {
+  bottom: 52px;
+}
+
+/* Selo da Black Friday no topo da página, com um reflexo que passa */
+.bf-tag {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 16px;
+  margin-bottom: 24px;
+}
+
+.bf-tag__selo {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  padding: 8px 16px;
+  border-radius: 4px;
+  background: var(--vermelho);
+  box-shadow: 0 12px 26px -12px rgba(200, 32, 47, 0.9);
+  transform: skewX(-10deg);
+}
+
+.bf-tag__selo > span {
+  display: block;
+  color: #fff;
+  font-size: 0.86rem;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  transform: skewX(10deg);
+}
+
+.bf-tag__selo::after,
+.bf-barra__marca::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, transparent 35%, rgba(255, 255, 255, 0.55) 50%, transparent 65%);
+  transform: translateX(-120%);
+  animation: bf-brilho 3.2s ease-in-out infinite;
+}
+
+@keyframes bf-brilho {
+  0%,
+  55% {
+    transform: translateX(-120%);
+  }
+  85%,
+  100% {
+    transform: translateX(120%);
+  }
+}
+
+.bf-tag__texto {
+  color: #d6d2cb;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.bf-tag__texto b {
+  color: #fff;
+}
+
+/* Fita vermelha inclinada entre o topo e o primeiro bloco, com o texto correndo */
+.bf-fita {
+  position: relative;
+  z-index: 3;
+  width: 110%;
+  margin: -24px -5%;
+  padding: 13px 0;
+  overflow: hidden;
+  background: var(--vermelho);
+  box-shadow: 0 18px 40px -16px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  transform: rotate(-2deg);
+}
+
+.bf-fita__trilho {
+  display: flex;
+  align-items: center;
+  width: max-content;
+  animation: bf-fita 40s linear infinite;
+}
+
+.bf-fita__trilho span {
+  padding: 0 22px;
+  color: #fff;
+  font-size: 0.92rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.bf-fita__trilho i {
+  flex: none;
+  width: 7px;
+  height: 7px;
+  background: #fff;
+  transform: rotate(45deg);
+}
+
+@keyframes bf-fita {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Oferta: faixa preta no cartão e contagem em blocos */
+.oferta__cartao .oferta__bf {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin: -40px -40px 28px;
+  padding: 13px 16px;
+  border-radius: 16px 16px 0 0;
+  background: #000;
+  color: #fff;
+  font-size: 0.86rem;
+  font-weight: 800;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.oferta__bf::before,
+.oferta__bf::after {
+  content: '';
+  width: 22px;
+  height: 2px;
+  background: var(--vermelho);
+}
+
+.contagem {
+  margin: 0 0 22px;
+}
+
+.oferta__cartao .contagem__titulo {
+  margin-bottom: 10px;
+  color: var(--vermelho);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.contagem__blocos {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.contagem__blocos span {
+  display: grid;
+  justify-items: center;
+  gap: 2px;
+  padding: 10px 4px 9px;
+  border-radius: 10px;
+  background: var(--preto);
+}
+
+.contagem__blocos b {
+  color: #fff;
+  font-size: 1.55rem;
+  font-weight: 800;
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+}
+
+.contagem__blocos small {
+  color: #a9a6a0;
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* Chamada final */
+.final .final__bf {
+  margin-top: 18px;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.final__bf b {
+  color: #ff6b76;
+  font-variant-numeric: tabular-nums;
+}
+
 /* ---------- Animação de entrada (discreta) ---------- */
 .js [data-revelar] {
   opacity: 0;
@@ -1340,6 +1663,11 @@ a {
     aspect-ratio: 16 / 10;
   }
 
+  /* A foto real do corte platinado aparece mais alta, sem cortar o resultado */
+  .dividido--inverso .dividido__foto--alta {
+    aspect-ratio: 4 / 5;
+  }
+
   #metodo > .cta {
     margin-top: 48px;
   }
@@ -1418,13 +1746,23 @@ a {
     gap: 12px;
   }
 
-  .problemas li {
-    padding: 20px 18px 20px 58px;
+  /* No celular, ícone ao lado do texto para o card ficar mais baixo */
+  .secao--azul .cartao {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    column-gap: 16px;
+    padding: 22px 20px;
   }
 
-  .problemas li::after {
-    top: 21px;
-    left: 18px;
+  .cartao__icone {
+    grid-row: span 2;
+    width: 28px;
+    height: 28px;
+    margin: 1px 0 0;
+  }
+
+  .problemas p {
+    margin-top: 6px;
   }
 
   .virada {
@@ -1527,6 +1865,81 @@ a {
   }
 }
 
+/* ---------- Black Friday no tablet e no celular ---------- */
+@media (max-width: 900px) {
+  html.bf .hero__conteudo {
+    padding-bottom: 90px;
+  }
+
+  html.bf .rolar {
+    bottom: 38px;
+  }
+}
+
+@media (max-width: 640px) {
+  :root {
+    --bf-barra: 38px;
+  }
+
+  .bf-barra {
+    gap: 10px;
+    font-size: 0.8rem;
+  }
+
+  .bf-barra__texto {
+    display: none;
+  }
+
+  .bf-tag {
+    gap: 8px 12px;
+    margin-bottom: 16px;
+  }
+
+  .bf-tag__selo {
+    padding: 6px 12px;
+  }
+
+  .bf-tag__selo > span {
+    font-size: 0.74rem;
+  }
+
+  .bf-tag__texto {
+    font-size: 0.86rem;
+  }
+
+  .bf-fita {
+    margin: -18px -5%;
+    padding: 10px 0;
+  }
+
+  .bf-fita__trilho span {
+    padding: 0 16px;
+    font-size: 0.8rem;
+  }
+
+  .oferta__cartao .oferta__bf {
+    margin: -28px -22px 24px;
+  }
+
+  .contagem__blocos b {
+    font-size: 1.35rem;
+  }
+}
+
+@media (max-width: 640px) and (max-height: 700px) {
+  html.bf .hero__conteudo {
+    padding-bottom: 76px;
+  }
+
+  html.bf .rolar {
+    bottom: 32px;
+  }
+
+  .bf-tag__texto {
+    display: none;
+  }
+}
+
 /* ---------- Menos movimento ---------- */
 @media (prefers-reduced-motion: reduce) {
   html {
@@ -1545,7 +1958,10 @@ a {
   .btn--cta .ico,
   .oferta__cartao,
   .rolar__mouse i,
-  .rolar__seta {
+  .rolar__seta,
+  .bf-fita__trilho,
+  .bf-tag__selo::after,
+  .bf-barra__marca::after {
     animation: none !important;
   }
 

@@ -26,7 +26,15 @@
   <link rel="preload" as="image" href="img/lucas-dos-cortes.webp" media="(min-width: 901px)">
   <link rel="stylesheet" href="css/estilo.css">
 
-  <script>document.documentElement.classList.add('js');</script>
+  <script>
+    /* BLACK FRIDAY: a página fica no clima da Black Friday (faixa, contagem e
+       textos) até esta data e hora, no horário de Brasília (-03:00).
+       Depois disso, ela volta sozinha ao normal. Para desligar antes, use uma
+       data que já passou. */
+    window.BLACK_FRIDAY_FIM = '2026-11-27T23:59:59-03:00';
+    document.documentElement.classList.add('js');
+    if (Date.now() < Date.parse(window.BLACK_FRIDAY_FIM)) document.documentElement.classList.add('bf');
+  </script>
   <script src="js/app.js" defer></script>
   <script src="js/platinado.js" defer></script>
 
@@ -56,7 +64,20 @@
     <symbol id="i-seta-cima" viewBox="0 0 24 24"><path d="M12 19V5M6 11l6-6 6 6"/></symbol>
     <symbol id="i-desce" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
     <symbol id="i-fechar" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+    <symbol id="i-gota" viewBox="0 0 24 24"><path d="M12 2.7 17.7 8.4a8 8 0 1 1-11.3 0Z"/><path d="M8.5 14.5a3.5 3.5 0 0 0 3.5 3.5"/></symbol>
+    <symbol id="i-quebra" viewBox="0 0 24 24"><path d="M4 20 10.2 13.8"/><path d="M13.8 10.2 20 4"/><path d="m9.5 10.5 1.6 1.2-1.2 1.6M14.5 13.5l-1.6-1.2 1.2-1.6"/></symbol>
+    <symbol id="i-manchas" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 1 0 18Z" fill="currentColor" stroke="none" opacity=".35"/></symbol>
+    <symbol id="i-fogo" viewBox="0 0 24 24"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.07-2.14-.22-4.05 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.15.43-2.29 1-3a2.5 2.5 0 0 0 2.5 2.5Z"/></symbol>
+    <symbol id="i-sorte" viewBox="0 0 24 24"><path d="M2 18h1.4c1.3 0 2.5-.6 3.3-1.7l6.1-8.6c.7-1.1 2-1.7 3.3-1.7H22"/><path d="m18 2 4 4-4 4"/><path d="M2 6h1.9c1.5 0 2.9.9 3.6 2.2"/><path d="M22 18h-5.9c-1.3 0-2.6-.7-3.3-1.8l-.5-.8"/><path d="m18 14 4 4-4 4"/></symbol>
+    <symbol id="i-alerta" viewBox="0 0 24 24"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"/><path d="M12 9v4M12 17h.01"/></symbol>
   </svg>
+
+  <!-- Faixa da Black Friday (some sozinha quando a promoção acaba) -->
+  <a class="bf-barra so-bf" href="#oferta">
+    <strong class="bf-barra__marca">Black Friday</strong>
+    <span class="bf-barra__texto">Curso de Platinado Perfeito por <b data-preco>R$ 29,99</b></span>
+    <span class="bf-barra__tempo">Termina em <b data-contagem-curta>--</b></span>
+  </a>
 
   <header class="topo">
     <div class="container topo__dentro">
@@ -76,14 +97,18 @@
 
       <div class="container hero__conteudo">
         <div class="hero__texto">
+          <p class="bf-tag so-bf">
+            <span class="bf-tag__selo"><span>Black Friday</span></span>
+            <span class="bf-tag__texto">Oferta especial até <b data-bf-data>27/11</b></span>
+          </p>
           <h1>Domine a técnica do platinado perfeito</h1>
           <p class="hero__sub">O passo a passo para levar o fio do escuro ao branco, com o barbeiro Lucas dos Cortes, especialista em nevou e colorimetria.</p>
           <div class="cta">
             <a class="btn btn--cta" href="https://pay.hotmart.com/C101919090K?off=qxpu7j8x" data-comprar>
-              Quero aprender o platinado
+              <span class="so-bf">Aproveitar a Black Friday</span><span class="sem-bf">Quero aprender o platinado</span>
               <svg class="ico" aria-hidden="true"><use href="#i-seta"/></svg>
             </a>
-            <p class="cta__preco"><strong data-preco>R$ 29,99</strong> à vista ou <span data-parcelas>6x de R$ 5,63</span></p>
+            <p class="cta__preco"><span class="so-bf">Na Black Friday: </span><strong data-preco>R$ 29,99</strong> à vista ou <span data-parcelas>6x de R$ 5,63</span></p>
           </div>
           <p class="hero__confianca"><span class="so-computador">Curso online · </span>Compra segura pela Hotmart · 7 dias de garantia</p>
         </div>
@@ -96,8 +121,18 @@
       </a>
     </section>
 
+    <!-- Fita da Black Friday, com o texto correndo -->
+    <div class="bf-fita so-bf" aria-hidden="true">
+      <div class="bf-fita__trilho">
+        <span>Black Friday</span><i></i><span>Curso de Platinado Perfeito</span><i></i><span data-preco>R$ 29,99</span><i></i><span>Só até <b data-bf-data>27/11</b></span><i></i>
+        <span>Black Friday</span><i></i><span>Curso de Platinado Perfeito</span><i></i><span data-preco>R$ 29,99</span><i></i><span>Só até <b data-bf-data>27/11</b></span><i></i>
+        <span>Black Friday</span><i></i><span>Curso de Platinado Perfeito</span><i></i><span data-preco>R$ 29,99</span><i></i><span>Só até <b data-bf-data>27/11</b></span><i></i>
+        <span>Black Friday</span><i></i><span>Curso de Platinado Perfeito</span><i></i><span data-preco>R$ 29,99</span><i></i><span>Só até <b data-bf-data>27/11</b></span><i></i>
+      </div>
+    </div>
+
     <!-- 2. O PROBLEMA -->
-    <section class="secao secao--clara" id="problema">
+    <section class="secao secao--azul" id="problema">
       <div class="container">
         <header class="cabeca" data-revelar>
           <h2>Platinado errado aparece de longe</h2>
@@ -106,26 +141,32 @@
 
         <ul class="problemas">
           <li class="cartao" data-revelar style="--atraso:0s">
+            <svg class="cartao__icone" aria-hidden="true"><use href="#i-gota"/></svg>
             <h3>Ficou amarelo</h3>
             <p>O cliente pediu branco e saiu com o cabelo amarelado.</p>
           </li>
           <li class="cartao" data-revelar style="--atraso:.08s">
+            <svg class="cartao__icone" aria-hidden="true"><use href="#i-quebra"/></svg>
             <h3>O fio quebrou</h3>
             <p>Descolorante forte demais ou tempo errado deixam o cabelo elástico e quebradiço.</p>
           </li>
           <li class="cartao" data-revelar style="--atraso:.16s">
+            <svg class="cartao__icone" aria-hidden="true"><use href="#i-manchas"/></svg>
             <h3>Ficou manchado</h3>
             <p>Raiz de um tom e pontas de outro: a aplicação desigual aparece na hora.</p>
           </li>
           <li class="cartao" data-revelar style="--atraso:0s">
+            <svg class="cartao__icone" aria-hidden="true"><use href="#i-fogo"/></svg>
             <h3>Ardeu na cadeira</h3>
             <p>Química mal conduzida agride o couro cabeludo, e o cliente sofre durante o processo.</p>
           </li>
           <li class="cartao" data-revelar style="--atraso:.08s">
+            <svg class="cartao__icone" aria-hidden="true"><use href="#i-sorte"/></svg>
             <h3>Cada vez sai de um jeito</h3>
             <p>Sem um método, o resultado depende da sorte.</p>
           </li>
           <li class="cartao" data-revelar style="--atraso:.16s">
+            <svg class="cartao__icone" aria-hidden="true"><use href="#i-alerta"/></svg>
             <h3>Medo de oferecer</h3>
             <p>Com receio de errar, você deixa de vender um dos serviços de maior valor da barbearia.</p>
           </li>
@@ -261,13 +302,12 @@
     <!-- 5. PARA QUEM É -->
     <section class="secao secao--escura" id="para-quem">
       <div class="container dividido dividido--inverso">
-        <figure class="dividido__foto" data-inclinar data-revelar>
-          <img src="https://images.unsplash.com/photo-1783908688260-0c47404926f3?auto=format&amp;fit=crop&amp;w=900&amp;h=1100&amp;q=75"
-               srcset="https://images.unsplash.com/photo-1783908688260-0c47404926f3?auto=format&amp;fit=crop&amp;w=640&amp;h=780&amp;q=75 640w,
-                       https://images.unsplash.com/photo-1783908688260-0c47404926f3?auto=format&amp;fit=crop&amp;w=900&amp;h=1100&amp;q=75 900w"
+        <figure class="dividido__foto dividido__foto--alta" data-inclinar data-revelar>
+          <img src="img/corte-platinado.webp"
+               srcset="img/corte-platinado-640.webp 640w, img/corte-platinado.webp 1089w"
                sizes="(max-width: 900px) 100vw, 540px"
-               width="900" height="1100" loading="lazy" decoding="async"
-               alt="Barbeiro de luvas pretas trabalhando no cabelo de um cliente com tesoura e pente">
+               width="1089" height="1444" loading="lazy" decoding="async"
+               alt="Corte platinado em barbearia profissional">
         </figure>
         <div class="dividido__texto" data-revelar>
           <h2>Para quem é o curso</h2>
@@ -319,11 +359,12 @@
     <section class="secao secao--escura oferta" id="oferta">
       <div class="container">
         <header class="cabeca" data-revelar>
-          <h2>Comece hoje por menos do que custa um platinado</h2>
-          <p>Um único atendimento já paga o curso. Depois, a técnica fica com você.</p>
+          <h2><span class="so-bf">Oferta de Black Friday</span><span class="sem-bf">Comece hoje por menos do que custa um platinado</span></h2>
+          <p><span class="so-bf">O curso completo por menos do que custa um único platinado, só até <b data-bf-data>27/11</b>.</span><span class="sem-bf">Um único atendimento já paga o curso. Depois, a técnica fica com você.</span></p>
         </header>
 
         <div class="oferta__cartao" data-revelar>
+          <p class="oferta__bf so-bf">Black Friday</p>
           <p class="oferta__produto">Curso de Platinado Perfeito</p>
           <p class="oferta__autor">com Lucas dos Cortes</p>
           <ul class="lista lista--compacta">
@@ -337,8 +378,17 @@
             <span class="oferta__valor" data-preco>R$ 29,99</span>
             <span class="oferta__parcelas">ou <span data-parcelas>6x de R$ 5,63</span> no cartão*</span>
           </p>
+          <div class="contagem so-bf">
+            <p class="contagem__titulo">A oferta termina em</p>
+            <div class="contagem__blocos" data-contagem>
+              <span><b data-d>00</b><small>dias</small></span>
+              <span><b data-h>00</b><small>horas</small></span>
+              <span><b data-m>00</b><small>min</small></span>
+              <span><b data-s>00</b><small>seg</small></span>
+            </div>
+          </div>
           <a class="btn btn--cta btn--largo" href="https://pay.hotmart.com/C101919090K?off=qxpu7j8x" data-comprar>
-            Quero meu acesso agora
+            <span class="so-bf">Comprar na Black Friday</span><span class="sem-bf">Quero meu acesso agora</span>
             <svg class="ico" aria-hidden="true"><use href="#i-seta"/></svg>
           </a>
           <p class="oferta__pagamento">Pix, cartão, boleto ou PayPal · Compra segura pela Hotmart</p>
@@ -409,9 +459,10 @@
       <div class="container estreito final__conteudo" data-revelar>
         <h2>Seu próximo nevou pode sair perfeito</h2>
         <p>Aprenda a técnica do platinado com o Lucas dos Cortes.</p>
+        <p class="final__bf so-bf">A oferta de Black Friday termina em <b data-contagem-curta>--</b></p>
         <div class="cta cta--centro">
           <a class="btn btn--cta" href="https://pay.hotmart.com/C101919090K?off=qxpu7j8x" data-comprar>
-            Quero aprender o platinado
+            <span class="so-bf">Quero aproveitar agora</span><span class="sem-bf">Quero aprender o platinado</span>
             <svg class="ico" aria-hidden="true"><use href="#i-seta"/></svg>
           </a>
           <p class="cta__preco"><strong data-preco>R$ 29,99</strong> à vista ou <span data-parcelas>6x de R$ 5,63</span><br>7 dias de garantia</p>

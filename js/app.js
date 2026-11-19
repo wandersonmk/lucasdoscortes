@@ -50,6 +50,52 @@
   document.querySelectorAll('[data-preco]').forEach((el) => (el.textContent = reais(PRECO_A_VISTA)));
   document.querySelectorAll('[data-parcelas]').forEach((el) => (el.textContent = `${PARCELAS.vezes}x de ${reais(PARCELAS.valor)}`));
 
+  /* ---------- Black Friday: contagem regressiva ----------
+     A data do fim fica no começo do index.html (BLACK_FRIDAY_FIM).
+     Quando a contagem chega a zero, a página volta ao normal sozinha. */
+  const fimBlackFriday = Date.parse(window.BLACK_FRIDAY_FIM || '');
+  if (!Number.isNaN(fimBlackFriday)) {
+    const raiz = document.documentElement;
+    const tituloNormal = document.title;
+    const doisDigitos = (n) => String(n).padStart(2, '0');
+    const dataFim = new Date(fimBlackFriday).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', timeZone: 'America/Sao_Paulo' });
+    document.querySelectorAll('[data-bf-data]').forEach((el) => (el.textContent = dataFim));
+
+    const curtas = document.querySelectorAll('[data-contagem-curta]');
+    const blocos = document.querySelectorAll('[data-contagem]');
+    let relogio = 0;
+
+    const atualizarContagem = () => {
+      const resto = fimBlackFriday - Date.now();
+      if (resto <= 0) {
+        raiz.classList.remove('bf');
+        document.title = tituloNormal;
+        clearInterval(relogio);
+        return false;
+      }
+      const s = Math.floor(resto / 1000);
+      const dias = Math.floor(s / 86400);
+      const horas = Math.floor((s % 86400) / 3600);
+      const minutos = Math.floor((s % 3600) / 60);
+      const segundos = s % 60;
+      const curta = `${dias > 0 ? `${dias}d ` : ''}${doisDigitos(horas)}:${doisDigitos(minutos)}:${doisDigitos(segundos)}`;
+      curtas.forEach((el) => (el.textContent = curta));
+      blocos.forEach((el) => {
+        el.querySelector('[data-d]').textContent = doisDigitos(dias);
+        el.querySelector('[data-h]').textContent = doisDigitos(horas);
+        el.querySelector('[data-m]').textContent = doisDigitos(minutos);
+        el.querySelector('[data-s]').textContent = doisDigitos(segundos);
+      });
+      return true;
+    };
+
+    if (atualizarContagem()) {
+      raiz.classList.add('bf');
+      document.title = `Black Friday · ${tituloNormal}`;
+      relogio = setInterval(atualizarContagem, 1000);
+    }
+  }
+
   /* ---------- WhatsApp (só nas dúvidas) ---------- */
   document.querySelectorAll('[data-wa]').forEach((a) => {
     a.href = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(MENSAGEM_WHATSAPP)}`;
