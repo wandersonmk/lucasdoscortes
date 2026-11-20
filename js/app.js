@@ -8,8 +8,13 @@
      Link do checkout da Hotmart (só com a oferta, sem rastreios do Instagram).
      Preço e parcelas aparecem em vários lugares da página: troque aqui. */
   const CHECKOUT = 'https://pay.hotmart.com/C101919090K?off=qxpu7j8x';
-  const PRECO_A_VISTA = 29.99;
-  const PARCELAS = { vezes: 6, valor: 5.63 };
+  const PRECO_A_VISTA = 29.9;
+  const PARCELAS = { vezes: 6, valor: 5.61 };
+
+  /* Preço "De" (riscado) no cartão da oferta, durante a Black Friday.
+     Precisa ser um preço que o curso teve de verdade antes da promoção.
+     Para não mostrar o "De", use: const PRECO_ANTERIOR = null; */
+  const PRECO_ANTERIOR = 197;
 
   /* WhatsApp para dúvidas: 55 + DDD + número, só os números. */
   const WHATSAPP = '5511955786747';
@@ -49,6 +54,11 @@
   /* ---------- Preço ---------- */
   document.querySelectorAll('[data-preco]').forEach((el) => (el.textContent = reais(PRECO_A_VISTA)));
   document.querySelectorAll('[data-parcelas]').forEach((el) => (el.textContent = `${PARCELAS.vezes}x de ${reais(PARCELAS.valor)}`));
+  if (typeof PRECO_ANTERIOR === 'number' && PRECO_ANTERIOR > PRECO_A_VISTA) {
+    document.querySelectorAll('[data-preco-anterior]').forEach((el) => (el.textContent = reais(PRECO_ANTERIOR)));
+  } else {
+    document.querySelectorAll('[data-preco-anterior-linha]').forEach((el) => el.remove());
+  }
 
   /* ---------- Black Friday: contagem regressiva ----------
      A data do fim fica no começo do index.html (BLACK_FRIDAY_FIM).
