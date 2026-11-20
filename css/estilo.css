@@ -38,6 +38,10 @@
 }
 
 html {
+  /* Com o html cortando também, o "clip" do body vale para o próprio body e
+     segura as pontas da fita da Black Friday (mais larga que a tela), em vez
+     de virar uma sobra de 20 px para os lados no celular */
+  overflow-x: clip;
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
 }
@@ -328,15 +332,17 @@ a {
   filter: blur(8px);
 }
 
-/* A imagem tem o tamanho exato da foto; o canto de baixo à esquerda esmaece,
-   para a capa do cliente não terminar num corte reto */
+/* A imagem tem o tamanho exato da foto. A borda esquerda esmaece aos poucos
+   (mais forte embaixo), para a capa do cliente se fundir com o fundo em vez
+   de terminar num corte reto. O ângulo deixa a cabeça do barbeiro, no alto
+   à esquerda, fora do esmaecido. */
 .hero__foto img {
   flex: none;
   width: auto;
   max-width: none;
   height: 100%;
-  -webkit-mask-image: linear-gradient(60deg, transparent 0%, #000 24%);
-  mask-image: linear-gradient(60deg, transparent 0%, #000 24%);
+  -webkit-mask-image: linear-gradient(70deg, transparent 0%, rgba(0, 0, 0, 0.15) 8%, rgba(0, 0, 0, 0.55) 15%, #000 24%);
+  mask-image: linear-gradient(70deg, transparent 0%, rgba(0, 0, 0, 0.15) 8%, rgba(0, 0, 0, 0.55) 15%, #000 24%);
 }
 
 /* A capa do cliente se funde com o fundo na parte de baixo */
